@@ -16,7 +16,7 @@ Deverá informar quais tecnologias foram usadas, como instalar, rodar e efetuar 
 
 
 ### POST `/account/person`
-Esse método deve receber um cartão novo usuário e inseri-lo em um banco de dados para ser consumido pela própria API.
+Esse método deve receber um novo usuário e inseri-lo em um banco de dados para ser consumido pela própria API.
 ```json
 {
    "first_name":"João",
@@ -36,7 +36,7 @@ Esse método deve receber um cartão novo usuário e inseri-lo em um banco de da
 | username    | String |
 
 ### GET `/account/friends`
-Esse método da API deve retornar o seguinte JSON
+Esse método da API deve retornar o seguinte JSON com os amigos do usuário
 ```json
 [
   {
@@ -75,7 +75,7 @@ Esse método deve receber um cartão novo e inseri-lo em um banco de dados para 
 ```json
 {
    "card_id": "70c881d4a26984ddce795f6f71817c9cf4480e79"
-   "title":"Cartão 1",
+   "title": "Cartão 1",
    "pan": "5527952393064634",
    "expiry_mm": "03",
    "expiry_yyyy": "2022",
@@ -94,7 +94,7 @@ Esse método deve receber um cartão novo e inseri-lo em um banco de dados para 
 
 
 ### GET `/starstore/cards`
-Esse método da API deve retornar o seguinte JSON
+Esse método da API deve retornar o seguinte JSON com os cartões cadastrados pelo usuário
 ```json
 [
   {
@@ -142,10 +142,10 @@ Para isso, você precisará fazer o método `transfer` na sua API.
 Esse método irá receber os dados da compra, junto com os dados do usuário.
 ```json
 {
-   "friend_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
-   "total_to_transfer":100,
-   "billing_card":{
-      "card_id":"70c881d4a26984ddce795f6f71817c9cf4480e79"
+   "friend_id": "70c881d4a26984ddce795f6f71817c9cf4480e79",
+   "total_to_transfer": 100,
+   "billing_card": {
+      "card_id": "70c881d4a26984ddce795f6f71817c9cf4480e79"
    }
 }
 
@@ -195,11 +195,11 @@ Esse método deve retornar todas as transferencias realizadas entre os amigos na
 ```
 | Campo            | Tipo   |
 |------------------|--------|
-| user_id      | String |
+| user_id          | String |
 | friend_id        | String |
 | value            | int (in cents)    |
 | date             | String |
-| from_card      | String |
+| from_card        | String |
 
 ### GET `/starstore/bank-statement/{usertId}`
 Esse método deve retornar todos as transferencias realizadas na API por um usuário específico
