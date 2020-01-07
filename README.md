@@ -2,8 +2,7 @@
 
 # Desafio Backend
 
-O desafio consiste em criar uma API REST para uma Wallet Digital que será consumida por um aplicativo (Android e iOS).
-Onde o usuário irá cadastrar/listar/editar/apagar um cartão quando desejar.
+O desafio consiste em criar uma API REST para uma Conta Digital, onde o usuário poderá realizar pagamentos para seus amigos e adicionar cartões de crétido, que será consumida por um aplicativo (Android e iOS). Onde o usuário irá cadastrar/listar/editar/apagar um cartão quando desejar e transferir e listar o extrato de pagamentos.
 
 O candidato deve dar **fork** neste repositório e após o termino do desenvolvimento, realizar um **pull request** para análise do time.
 
@@ -16,10 +15,66 @@ Deverá informar quais tecnologias foram usadas, como instalar, rodar e efetuar 
 - Utilizar Docker
 
 
+### POST `/account/person`
+Esse método deve receber um cartão novo usuário e inseri-lo em um banco de dados para ser consumido pela própria API.
+```json
+{
+   "first_name":"João",
+   "last_name": "das Neves",
+   "birthday": "1991-09-91",
+   "password": "*****",
+   "username": "joao_das_neves",
+   "user_id": "70c881d4a26984ddce795f6f71817c9cf4480e79"
+}
+```
+| Campo       | Tipo   |
+|-------------|--------|
+| first_name  | String |
+| last_name   | String |
+| birthday    | String |
+| password    | String |
+| username    | String |
+
+### GET `/account/friends`
+Esse método da API deve retornar o seguinte JSON
+```json
+[
+  {
+   "first_name":"João",
+   "last_name": "das Neves",
+   "birthday": "1991-09-91",
+   "username": "joao_das_neves",
+   "user_id": "70c881d4a26984ddce795f6f71817c9cf4480e79"
+  },
+  {
+   "first_name":"João",
+   "last_name": "das Neves",
+   "birthday": "1991-09-91",
+   "username": "joao_das_neves",
+   "user_id": "70c881d4a26984ddce795f6f71817c9cf4480e79"
+  },
+  {
+   "first_name":"João",
+   "last_name": "das Neves",
+   "birthday": "1991-09-91",
+   "username": "joao_das_neves",
+   "user_id": "70c881d4a26984ddce795f6f71817c9cf4480e79"
+  }
+]
+```
+
+| Campo       | Tipo   |
+|-------------|--------|
+| first_name  | String |
+| last_name   | String |
+| birthday    | String |
+| username    | String |
+
 ### POST `/wallet/card`
 Esse método deve receber um cartão novo e inseri-lo em um banco de dados para ser consumido pela própria API.
 ```json
 {
+   "card_id": "70c881d4a26984ddce795f6f71817c9cf4480e79"
    "title":"Cartão 1",
    "pan": "5527952393064634",
    "expiry_mm": "03",
@@ -38,33 +93,33 @@ Esse método deve receber um cartão novo e inseri-lo em um banco de dados para 
 | date        | String |
 
 
-### GET `/starstore/products`
+### GET `/starstore/cards`
 Esse método da API deve retornar o seguinte JSON
 ```json
 [
   {
-    "title": "Blusa do Imperio",
-    "price": 7990,
-    "zipcode": "78993-000",
-    "seller": "João da Silva",
-    "thumbnailHd": "https://cdn.awsli.com.br/600x450/21/21351/produto/3853007/f66e8c63ab.jpg",
-    "date": "26/11/2015"
+    "title":"Cartão 1",
+    "pan": "5527952393064634",
+    "expiry_mm": "03",
+    "expiry_yyyy": "2022",
+    "security_code": "656",
+    "date":"26/11/2015"
   },
   {
-    "title": "Blusa Han Shot First",
-    "price": 7990,
-    "zipcode": "13500-110",
-    "seller": "Joana",
-    "thumbnailHd": "https://cdn.awsli.com.br/1000x1000/21/21351/produto/7234148/55692a941d.jpg",
-    "date": "26/11/2015"
+     "title":"Cartão 2",
+     "pan": "5527952393064634",
+     "expiry_mm": "03",
+     "expiry_yyyy": "2022",
+     "security_code": "656",
+     "date":"26/11/2015"
   },
   {
-    "title": "Sabre de luz",
-    "price": 150000,
-    "zipcode": "13537-000",
-    "seller": "Mario Mota",
-    "thumbnailHd": "http://www.obrigadopelospeixes.com/wp-content/uploads/2015/12/kalippe_lightsaber_by_jnetrocks-d4dyzpo1-1024x600.jpg",
-    "date": "20/11/2015"
+     "title":"Cartão 2",
+     "pan": "5527952393064634",
+     "expiry_mm": "03",
+     "expiry_yyyy": "2022",
+     "security_code": "656",
+     "date":"26/11/2015"
   }
 ]
 ```
@@ -72,107 +127,98 @@ Esse método da API deve retornar o seguinte JSON
 | Campo       | Tipo   |
 |-------------|--------|
 | title       | String |
-| price       | int    |
-| zipcode     | String |
-| seller      | String |
-| thumbnailHd | String |
+| pan         | String |
+| expiry_mm   | String |
+| expiry_yyy  | String |
+| security_code | String |
 | date        | String |
 
 
-Após o usuário adicionar todos os itens desejados no carrinho, ele finalizará a compra.
-Para isso, você precisará fazer o método `buy` na sua API.
 
-### POST `/starstore/buy`
+Após o usuário adicionar todos os cartões e localizar seus amigos, ele poderá realizar uma transferência.
+Para isso, você precisará fazer o método `transfer` na sua API.
+
+### POST `/account/transfer`
 Esse método irá receber os dados da compra, junto com os dados do usuário.
 ```json
 {
-   "client_id":"7e655c6e-e8e5-4349-8348-e51e0ff3072e",
-   "client_name":"Luke Skywalker",
-   "total_to_pay":1236,
-   "credit_card":{
-      "card_number":"1234123412341234",
-      "value":7990,
-      "cvv":789,
-      "card_holder_name":"Luke Skywalker",
-      "exp_date":"12/24"
+   "friend_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
+   "total_to_transfer":100,
+   "billing_card":{
+      "card_id":"70c881d4a26984ddce795f6f71817c9cf4480e79"
    }
 }
 
 ```
 
-+ Transaction
++ Transfer
 
 | Campo        | Tipo       |
 |--------------|------------|
-| client_id    | String     |
-| client_name  | String     |
-| total_to_pay | int        |
-| credit_card  | CreditCard |
+| friend_id    | String     |
+| total_to_pay | int (in cents)|
+| billing_card  | CreditCard |
 
-+ CreditCard
++ BillingCard
 
 | Campo            | Tipo   |
 |------------------|--------|
-| card_number      | String |
-| card_holder_name | String |
-| value            | int    |
-| cvv              | int    |
-| exp_date         | String |
+| card_id          | String |
 
 
-### GET `/starstore/history`
-Esse método deve retornar todos as compras realizadas na API
+### GET `/starstore/bank-statement`
+Esse método deve retornar todas as transferencias realizadas entre os amigos na API
 ```json
 [
    {
-      "client_id":"7e655c6e-e8e5-4349-8348-e51e0ff3072e",
-      "purchase_id":"569c30dc-6bdb-407a-b18b-3794f9b206a8",
+      "user_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
+      "friend_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
       "value":1234,
       "date":"19/08/2016",
-      "card_number":"**** **** **** 1234"
+      "from_card":"70c881d4a26984ddce795f6f71817c9cf4480e79"
    },
    {
-      "client_id":"7e655c6e-e8e5-4349-8348-e51e0ff3072e",
-      "purchase_id":"569c30dc-6bdb-407a-b18b-3794f9b206a8",
+      "user_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
+      "friend_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
       "value":1234,
       "date":"19/08/2016",
-      "card_number":"**** **** **** 1234"
+      "from_card":"70c881d4a26984ddce795f6f71817c9cf4480e79"
    },
    {
-      "client_id":"7e655c6e-e8e5-4349-8348-e51e0ff3072e",
-      "purchase_id":"569c30dc-6bdb-407a-b18b-3794f9b206a8",
+      "user_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
+      "friend_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
       "value":1234,
       "date":"19/08/2016",
-      "card_number":"**** **** **** 1234"
-   }
+      "from_card":"70c881d4a26984ddce795f6f71817c9cf4480e79"
+   },
 ]
 ```
 | Campo            | Tipo   |
 |------------------|--------|
-| card_number      | String |
-| cliend_id        | String |
-| value            | int    |
+| user_id      | String |
+| friend_id        | String |
+| value            | int (in cents)    |
 | date             | String |
-| purchase_id      | String |
+| from_card      | String |
 
-### GET `/starstore/history/{clientId}`
-Esse método deve retornar todos as compras realizadas na API por um cliente específico
+### GET `/starstore/bank-statement/{usertId}`
+Esse método deve retornar todos as transferencias realizadas na API por um usuário específico
 ```json
 [
    {
-      "client_id":"7e655c6e-e8e5-4349-8348-e51e0ff3072e",
-      "purchase_id":"569c30dc-6bdb-407a-b18b-3794f9b206a8",
+      "user_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
+      "friend_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
       "value":1234,
       "date":"19/08/2016",
-      "card_number":"**** **** **** 1234"
+      "from_card":"70c881d4a26984ddce795f6f71817c9cf4480e79"
    },
    {
-      "client_id":"7e655c6e-e8e5-4349-8348-e51e0ff3072e",
-      "purchase_id":"569c30dc-6bdb-407a-b18b-3794f9b206a8",
+      "user_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
+      "friend_id":"70c881d4a26984ddce795f6f71817c9cf4480e79",
       "value":1234,
       "date":"19/08/2016",
-      "card_number":"**** **** **** 1234"
-   }
+      "from_card":"70c881d4a26984ddce795f6f71817c9cf4480e79"
+   },
 ]
 ```
 
