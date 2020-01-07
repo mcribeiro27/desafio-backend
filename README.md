@@ -2,38 +2,39 @@
 
 # Desafio Backend
 
-O desafio consiste em criar uma API REST para a loja de Star Wars que será consumida por um aplicativo (Android e iOS).
-Todos os itens serão colocados em um carrinho do lado do aplicativo e passados para a API para realizar uma transação e-commerce.
+O desafio consiste em criar uma API REST para uma Wallet Digital que será consumida por um aplicativo (Android e iOS).
+Onde o usuário irá cadastrar/listar/editar/apagar um cartão quando desejar.
 
 O candidato deve dar **fork** neste repositório e após o termino do desenvolvimento, realizar um **pull request** para análise do time.
 
-O candidato tem a liberdade de realizar o desafio com a tecnologia que achar melhor.
-Deverá informar quais tecnologias foram usadas, como instalar, rodar e efetuar os acessos no arquivo [`details.txt`](https://github.com/stone-pagamentos/desafio-backend/blob/master/details.txt) (se necessário) para análise do desafio.
+O candidato deve realizar a implementação buscando utilizar a linguagem Python ou Go. Demais Frameworks/Libs ficam por conta do candidato.
+
+Deverá informar quais tecnologias foram usadas, como instalar, rodar e efetuar os acessos no arquivo [`details.txt`](https://github.com/Lucree-Dev/desafio-backend/blob/master/details.txt) (se necessário) para análise do desafio.
 
 ### Extra
-- Utilizar Cache
 - Autenticação nas requisições
 - Utilizar Docker
 
-### POST `/starstore/product`
-Esse método deve receber um produto novo e inseri-lo em um banco de dados para ser consumido pela própria API.
+
+### POST `/wallet/card`
+Esse método deve receber um cartão novo e inseri-lo em um banco de dados para ser consumido pela própria API.
 ```json
 {
-   "title":"Blusa do Imperio",
-   "price":7990,
-   "zipcode":"78993-000",
-   "seller":"João da Silva",
-   "thumbnailHd":"https://cdn.awsli.com.br/600x450/21/21351/produto/3853007/f66e8c63ab.jpg",
+   "title":"Cartão 1",
+   "pan": "5527952393064634",
+   "expiry_mm": "03",
+   "expiry_yyyy": "2022",
+   "security_code": "656",
    "date":"26/11/2015"
 }
 ```
 | Campo       | Tipo   |
 |-------------|--------|
 | title       | String |
-| price       | int    |
-| zipcode     | String |
-| seller      | String |
-| thumbnailHd | String |
+| pan         | String |
+| expiry_mm   | String |
+| expiry_yyy  | String |
+| security_code | String |
 | date        | String |
 
 
