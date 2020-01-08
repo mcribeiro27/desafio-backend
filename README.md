@@ -70,7 +70,7 @@ Esse método da API deve retornar o seguinte JSON com os amigos do usuário
 | birthday    | String |
 | username    | String |
 
-### POST `/wallet/card`
+### POST `/account/card`
 Esse método deve receber um cartão novo e inseri-lo em um banco de dados para ser consumido pela própria API.
 ```json
 {
@@ -93,7 +93,7 @@ Esse método deve receber um cartão novo e inseri-lo em um banco de dados para 
 | date        | String |
 
 
-### GET `/starstore/cards`
+### GET `/account/cards`
 Esse método da API deve retornar o seguinte JSON com os cartões cadastrados pelo usuário
 ```json
 [
@@ -166,7 +166,7 @@ Esse método irá receber os dados da compra, junto com os dados do usuário.
 | card_id          | String |
 
 
-### GET `/starstore/bank-statement`
+### GET `/account/bank-statement`
 Esse método deve retornar todas as transferencias realizadas entre os amigos na API
 ```json
 [
@@ -201,7 +201,7 @@ Esse método deve retornar todas as transferencias realizadas entre os amigos na
 | date             | String |
 | from_card        | String |
 
-### GET `/starstore/bank-statement/{usertId}`
+### GET `/account/bank-statement/{usertId}`
 Esse método deve retornar todos as transferencias realizadas na API por um usuário específico
 ```json
 [
@@ -230,7 +230,7 @@ Esse método deve retornar todos as transferencias realizadas na API por um usu�
 ```
 MIT License
 
-Copyright (c) 2016 Stone Pagamentos
+Copyright (c) 2020 Lucree Soluções Inteligentes.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
