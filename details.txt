@@ -9,3 +9,40 @@ PyJWT==1.7.1
 six==1.13.0
 SQLAlchemy==1.3.12
 Werkzeug==0.16.0
+
+Para instalar os modulos acima, deve usar o "pip install"
+
+O sistema foi todo testado usando o Postman, onde passo a rota, o tipo de requisição o os dados em si.
+
+Para realizar login basta colocar a seguinte rota
+
+/account/login
+
+Irá gerar um token, basta copiar ecolocar no header
+
+ex.: key: Authorization Value: Bearer token
+
+Rotas que precisa de autenticação:
+
+/account/person/{user_id} PUT
+/account/person/{user_id} DELETE
+
+/account/friends GET
+/account/friend/{friend_id} GET
+/account/friend POST
+/account/friend/{friend_id} PUT
+/account/friend/{friend_id} DELETE
+
+/account/cards GET
+/account/card/{card_id} GET
+/account/card POST
+/account/card/{card_id} PUT
+/account/card/{card_id} DELETE
+
+/account/bank_statement GET
+/account/bank_statement/{user_id} GET
+/account/transfer POST
+
+/account/logout POST
+
+
