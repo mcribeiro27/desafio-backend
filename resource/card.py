@@ -1,16 +1,19 @@
 from flask import Blueprint, request
 from models.cards_models import CardModel
+from flask_jwt_extended import jwt_required
 
 card = Blueprint('card_routes', __name__, url_prefix = '/account')
 
 ''' Recupera todos os Cards'''
 @card.route('/cards')
+@jwt_required
 def get_all():
     return {'Cards': [card.json() for card in CardModel.query.all()]}
 
 
 ''' Recupera Card '''
 @card.route('/card/<string:card_id>')
+@jwt_required
 def get(card_id):
     card = CardModel.find_card(card_id)
     if card:
@@ -20,6 +23,7 @@ def get(card_id):
 
 ''' Cadastra Card '''
 @card.route('/card', methods=['POST'])
+@jwt_required
 def post():
     query = request.json
     card = CardModel(**query)
@@ -35,6 +39,7 @@ def post():
 
 ''' Atualiza/Cadastra Card'''
 @card.route('/card/<string:card_id>', methods=['PUT'])
+@jwt_required
 def put(card_id):
     query = request.json
     card_encontrado = CardModel.find_card(card_id)
@@ -60,6 +65,7 @@ def put(card_id):
 
 ''' Deleta Card'''
 @card.route('/card/<string:card_id>', methods=['DELETE'])
+@jwt_required
 def delete(card_id):
     card = CardModel.find_card(card_id)
     if card:

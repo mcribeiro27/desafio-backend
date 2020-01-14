@@ -42,6 +42,13 @@ class PersonModel(lucree.Model):
             return person
         return None
 
+    @classmethod
+    def find_by_username(cls, username):
+        person = cls.query.filter_by(username=username).first()
+        if person:
+            return person
+        return None
+
     ''' Salva na tabela Person'''
     def save_person(self):
         lucree.session.add(self)

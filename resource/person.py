@@ -1,5 +1,8 @@
 from flask import Blueprint, request
 from models.person_models import PersonModel
+from flask_jwt_extended import create_access_token, jwt_required, get_raw_jwt
+from werkzeug.security import safe_str_cmp
+from blacklist import BLACKLIST
 
 person = Blueprint('person_routes', __name__, url_prefix = '/account')
 
@@ -34,7 +37,9 @@ def post():
     return user.json()
 
 ''' Atualiza/Cadatra Person'''
+
 @person.route('/person/<string:user_id>', methods=['PUT'])
+@jwt_required
 def put(user_id):
     query = request.json
     user_encontrado = PersonModel.find_person(user_id)
@@ -59,10 +64,31 @@ def put(user_id):
     return person.json(), 201 # Created
 
 ''' Deleta Person'''
+
 @person.route('/person/<string:user_id>', methods=['DELETE'])
+@jwt_required
 def delete(user_id):
     person = PersonModel.find_person(user_id)
     if person:
         person.delete_person()
         return {'message': 'Person deletado.'}
     return {'message': 'Person não encontrado.'}, 404
+
+
+@person.route('/login', methods=['POST'])
+def login():
+    query = request.json
+    user = PersonModel.find_by_username(query['username'])
+
+    if user and safe_str_cmp(user.password, query['password']):
+        token_de_acesso = create_access_token(identity=user.user_id)
+        return {'access_token': token_de_acesso}, 200
+    return {'message': 'Username or password not found'}, 401
+
+
+@person.route('/logout', methods=['POST'])
+@jwt_required
+def logout():
+    jwt_id = get_raw_jwt()['jti']
+    BLACKLIST.add(jwt_id)
+    return {'message': 'Deslogado com sucesso'}, 200

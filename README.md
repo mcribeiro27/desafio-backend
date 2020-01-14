@@ -74,7 +74,7 @@ Esse método da API deve retornar o seguinte JSON com os amigos do usuário
 Esse método deve receber um cartão novo e inseri-lo em um banco de dados para ser consumido pela própria API.
 ```json
 {
-   "card_id": "70c881d4a26984ddce795f6f71817c9cf4480e79"
+   "card_id": "70c881d4a26984ddce795f6f71817c9cf4480e79",
    "title": "Cartão 1",
    "pan": "5527952393064634",
    "expiry_mm": "03",

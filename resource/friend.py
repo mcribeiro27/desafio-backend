@@ -1,15 +1,20 @@
 from flask import Blueprint, request, jsonify
 from models.friends_models import FriendModel
+from flask_jwt_extended import jwt_required
 
 friend = Blueprint('friend_routes', __name__, url_prefix = '/account')
 
 ''' Recupera todos os Friends'''
+
+
 @friend.route('/friends')
+@jwt_required
 def get_all():
     return {'Friends': [friend.json() for friend in FriendModel.query.all()]}
 
 ''' Recupera Friend '''
 @friend.route('/friend/<string:friend_id>')
+@jwt_required
 def get(friend_id):
     friend = FriendModel.find_friend(friend_id)
     if friend:
@@ -18,6 +23,7 @@ def get(friend_id):
 
 ''' Salva Friend'''
 @friend.route('/friend', methods=['POST'])
+@jwt_required
 def post():
     query = request.json
     friend = FriendModel(**query)
@@ -33,6 +39,7 @@ def post():
 
 ''' Atualiza/Cadastra Friend'''
 @friend.route('/friend/<string:friend_id>', methods=['PUT'])
+@jwt_required
 def put(friend_id):
     query = request.json
     friend_encontrado = FriendModel.find_friend(friend_id)
@@ -57,6 +64,7 @@ def put(friend_id):
 
 ''' Deleta Friend '''
 @friend.route('/friend/<string:friend_id>', methods=['DELETE'])
+@jwt_required
 def delete(friend_id):
     friend = FriendModel.find_friend(friend_id)
     if friend:

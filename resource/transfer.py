@@ -2,14 +2,17 @@ from flask import Blueprint, request,json
 from models.transfers_model import TransferModel
 from models.friends_models import FriendModel
 from models.cards_models import CardModel
+from flask_jwt_extended import jwt_required
 
 transfer = Blueprint('transfer_routes', __name__, url_prefix = '/account')
 
 @transfer.route('/bank_statement')
+@jwt_required
 def get_all():
     return {'Transfers': [transfer.json() for transfer in TransferModel.query.all()]}
 
 @transfer.route('/bank_statement/<string:person_id>')
+@jwt_required
 def get(person_id):
     person = TransferModel.find_person(person_id)
     if person:
@@ -17,6 +20,7 @@ def get(person_id):
     return {'mensage': 'Person não existe'}, 404 # Not Found
 
 @transfer.route('/transfer', methods=['POST'])
+@jwt_required
 def post():
     query = request.json
     transfer = TransferModel(query['friend_id'], query['total_to_pay'], query['billing_card']['card_id'], query['person_id'])
